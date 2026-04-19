@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVA — Агентство будущего</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --c1: #FF3D57;
+    --c2: #FF8C42;
+    --c3: #FFCE45;
+    --c4: #1A1A2E;
+    --c5: #0F0F1A;
+    --white: #FFFFFF;
+    --gray: #A0A0B8;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--c5);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 24px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(20px);
+    background: rgba(15,15,26,0.7);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    background: linear-gradient(90deg, var(--c1), var(--c3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--gray);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  .nav-cta {
+    background: linear-gradient(135deg, var(--c1), var(--c2));
+    color: white !important;
+    padding: 10px 22px;
+    border-radius: 100px;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    transition: opacity 0.2s !important;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 140px 60px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    animation: float 8s ease-in-out infinite;
+  }
+  .orb1 { width: 600px; height: 600px; background: var(--c1); top: -100px; right: -100px; animation-delay: 0s; }
+  .orb2 { width: 400px; height: 400px; background: #7B2FFF; bottom: -50px; left: 10%; animation-delay: -3s; }
+  .orb3 { width: 300px; height: 300px; background: var(--c3); top: 30%; right: 20%; animation-delay: -5s; opacity: 0.2; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 900px; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,61,87,0.15);
+    border: 1px solid rgba(255,61,87,0.3);
+    border-radius: 100px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #FF8C9E;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .badge-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--c1);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(52px, 7vw, 96px);
+    line-height: 1.0;
+    letter-spacing: -3px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .h1-line2 {
+    background: linear-gradient(90deg, var(--c1) 0%, var(--c2) 50%, var(--c3) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 520px;
+    margin-bottom: 48px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--c1), var(--c2));
+    color: white;
+    text-decoration: none;
+    padding: 16px 32px;
+    border-radius: 100px;
+    font-size: 15px;
+    font-weight: 500;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 40px rgba(255,61,87,0.4);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 60px rgba(255,61,87,0.5); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--white);
+    text-decoration: none;
+    padding: 16px 28px;
+    border-radius: 100px;
+    font-size: 15px;
+    font-weight: 400;
+    border: 1px solid rgba(255,255,255,0.15);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.05); }
+
+  .arrow { font-size: 18px; }
+
+  /* MARQUEE */
+  .marquee-wrap {
+    background: rgba(255,255,255,0.04);
+    border-top: 1px solid rgba(255,255,255,0.07);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    padding: 20px 0;
+    overflow: hidden;
+  }
+  .marquee {
+    display: flex;
+    gap: 64px;
+    animation: scroll 20s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+  .marquee-item {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .marquee-item::after { content: '✦'; color: var(--c1); font-size: 10px; }
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* SERVICES */
+  section { padding: 100px 60px; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--c1);
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(36px, 4vw, 56px);
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    margin-bottom: 64px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .service-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .service-card:hover { background: rgba(255,255,255,0.06); }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--c1), var(--c2));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--c1);
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+  }
+
+  .service-icon {
+    font-size: 36px;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .service-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+
+  /* STATS */
+  .stats-section {
+    background: linear-gradient(135deg, rgba(255,61,87,0.1), rgba(123,47,255,0.1));
+    border-top: 1px solid rgba(255,255,255,0.07);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+  }
+
+  .stat-item { text-align: center; }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 56px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    background: linear-gradient(90deg, var(--c1), var(--c3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-size: 14px;
+    color: var(--gray);
+    font-weight: 400;
+  }
+
+  /* PROCESS */
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--c1), var(--c2), var(--c3), transparent);
+    z-index: 0;
+  }
+
+  .process-step { padding: 0 24px; text-align: center; position: relative; z-index: 1; }
+
+  .step-circle {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--c5);
+    border: 2px solid var(--c1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--c1);
+  }
+
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .step-desc { font-size: 13px; color: var(--gray); line-height: 1.6; }
+
+  /* TESTIMONIALS */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .testimonial-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 36px;
+    transition: transform 0.2s;
+  }
+  .testimonial-card:hover { transform: translateY(-4px); }
+
+  .stars { color: var(--c3); font-size: 16px; margin-bottom: 16px; letter-spacing: 2px; }
+
+  .testimonial-text {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+
+  .testimonial-author { display: flex; align-items: center; gap: 12px; }
+
+  .author-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .author-name { font-size: 14px; font-weight: 500; }
+  .author-role { font-size: 12px; color: var(--gray); }
+
+  /* CTA SECTION */
+  .cta-section {
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,61,87,0.2), transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .cta-section .section-title { max-width: 700px; margin: 0 auto 40px; }
+
+  .cta-form {
+    display: flex;
+    gap: 12px;
+    max-width: 480px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-input {
+    flex: 1;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 100px;
+    padding: 16px 24px;
+    font-size: 15px;
+    color: white;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s;
+  }
+  .cta-input::placeholder { color: var(--gray); }
+  .cta-input:focus { border-color: rgba(255,61,87,0.5); }
+
+  .cta-btn {
+    background: linear-gradient(135deg, var(--c1), var(--c2));
+    color: white;
+    border: none;
+    padding: 16px 28px;
+    border-radius: 100px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: transform 0.2s, box-shadow 0.2s;
+    white-space: nowrap;
+  }
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(255,61,87,0.4); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 40px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy { font-size: 13px; color: var(--gray); }
+  .footer-links { display: flex; gap: 28px; }
+  .footer-links a { color: var(--gray); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--white); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .hero, section { padding-left: 24px; padding-right: 24px; }
+    .services-grid, .stats-grid, .process-steps, .testimonials-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+    .cta-form { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">NOVA</div>
+  <ul class="nav-links">
+    <li><a href="#services">Услуги</a></li>
+    <li><a href="#process">Процесс</a></li>
+    <li><a href="#reviews">Отзывы</a></li>
+    <li><a href="#contact" class="nav-cta">Связаться</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <div class="badge-dot"></div>
+      Агентство цифровых решений
+    </div>
+    <h1>
+      Строим<br>
+      <span class="h1-line2">будущее</span><br>
+      вашего бизнеса
+    </h1>
+    <p class="hero-sub">Дизайн, разработка и стратегия — всё под одной крышей. Превращаем амбиции в продукты, которые работают.</p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-primary">Начать проект <span class="arrow">→</span></a>
+      <a href="#services" class="btn-secondary">Смотреть услуги</a>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee">
+    <span class="marquee-item">UI/UX Дизайн</span>
+    <span class="marquee-item">Веб-разработка</span>
+    <span class="marquee-item">Мобильные приложения</span>
+    <span class="marquee-item">IT-консалтинг</span>
+    <span class="marquee-item">Бренд-стратегия</span>
+    <span class="marquee-item">SEO-продвижение</span>
+    <span class="marquee-item">UI/UX Дизайн</span>
+    <span class="marquee-item">Веб-разработка</span>
+    <span class="marquee-item">Мобильные приложения</span>
+    <span class="marquee-item">IT-консалтинг</span>
+    <span class="marquee-item">Бренд-стратегия</span>
+    <span class="marquee-item">SEO-продвижение</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <p class="section-label">Что мы делаем</p>
+  <h2 class="section-title">Услуги,<br>которые двигают вперёд</h2>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <span class="service-icon">◈</span>
+      <h3 class="service-title">UX/UI Дизайн</h3>
+      <p class="service-desc">Создаём интерфейсы, которые не просто красивы — они конвертируют. Исследование, прототипирование, тестирование.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <span class="service-icon">⬡</span>
+      <h3 class="service-title">Веб-разработка</h3>
+      <p class="service-desc">От лендинга до сложной платформы. Быстро, надёжно, масштабируемо. Современные технологии без лишних слов.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <span class="service-icon">◎</span>
+      <h3 class="service-title">Мобильные приложения</h3>
+      <p class="service-desc">iOS и Android-приложения, которыми хочется пользоваться. Нативная производительность, бесшовный опыт.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <span class="service-icon">◇</span>
+      <h3 class="service-title">IT-консалтинг</h3>
+      <p class="service-desc">Помогаем выбрать правильный технологический стек, оптимизировать процессы и избежать дорогих ошибок.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">05</div>
+      <span class="service-icon">◉</span>
+      <h3 class="service-title">Брендинг</h3>
+      <p class="service-desc">Логотипы, фирменные стили, tone of voice. Строим бренды, которые запоминаются с первого взгляда.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">06</div>
+      <span class="service-icon">◈</span>
+      <h3 class="service-title">Цифровая стратегия</h3>
+      <p class="service-desc">Анализ рынка, конкурентов и точек роста. Строим дорожную карту, по которой реально идти.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section" style="padding: 80px 60px;">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-num">150+</div>
+      <div class="stat-label">Проектов завершено</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">98%</div>
+      <div class="stat-label">Довольных клиентов</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">6 лет</div>
+      <div class="stat-label">На рынке</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">×3.2</div>
+      <div class="stat-label">Средний рост конверсии</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <p class="section-label">Как мы работаем</p>
+  <h2 class="section-title">Четыре шага<br>до результата</h2>
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="step-circle">1</div>
+      <h4 class="step-title">Бриф</h4>
+      <p class="step-desc">Погружаемся в ваш бизнес, цели и ожидания. Чем точнее бриф, тем лучше результат.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-circle">2</div>
+      <h4 class="step-title">Стратегия</h4>
+      <p class="step-desc">Разрабатываем концепцию и план. Утверждаем направление до начала активной работы.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-circle">3</div>
+      <h4 class="step-title">Создание</h4>
+      <p class="step-desc">Дизайним и разрабатываем итерациями. Вы видите прогресс на каждом этапе.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-circle">4</div>
+      <h4 class="step-title">Запуск</h4>
+      <p class="step-desc">Выводим в продакшн, передаём всё необходимое и остаёмся на связи после запуска.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="reviews">
+  <p class="section-label">Отзывы</p>
+  <h2 class="section-title">Нам доверяют<br>лидеры рынка</h2>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">«NOVA полностью переработали наш продукт — и через квартал мы увидели рост конверсии на 280%. Это не магия, это качественная работа.»</p>
+      <div class="testimonial-author">
+        <div class="author-avatar" style="background: rgba(255,61,87,0.2); color: var(--c1);">АС</div>
+        <div>
+          <div class="author-name">Алексей Смирнов</div>
+          <div class="author-role">CEO, TechStart</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">«Работали чётко, в срок и без лишних согласований. Наконец-то нашли команду, которая понимает бизнес, а не только пиксели.»</p>
+      <div class="testimonial-author">
+        <div class="author-avatar" style="background: rgba(123,47,255,0.2); color: #A87FFF;">МК</div>
+        <div>
+          <div class="author-name">Мария Козлова</div>
+          <div class="author-role">CMO, RetailPro</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">«Сделали приложение с нуля за 8 недель. Качество выше, чем у штатной команды, с которой мы работали два года.»</p>
+      <div class="testimonial-author">
+        <div class="author-avatar" style="background: rgba(255,200,69,0.2); color: var(--c3);">ДИ</div>
+        <div>
+          <div class="author-name">Дмитрий Иванов</div>
+          <div class="author-role">Founder, FinFlow</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">«Консалтинг NOVA помог нам сэкономить миллион рублей, выбрав правильный стек с самого начала. Окупилось в первый месяц.»</p>
+      <div class="testimonial-author">
+        <div class="author-avatar" style="background: rgba(29,232,181,0.15); color: #1DE8B5;">ОП</div>
+        <div>
+          <div class="author-name">Ольга Петрова</div>
+          <div class="author-role">CTO, LogiSmart</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contact" class="cta-section">
+  <p class="section-label" style="position:relative;z-index:1;">Начать работу</p>
+  <h2 class="section-title">Готовы вывести<br>бизнес на новый уровень?</h2>
+  <p style="color:var(--gray);font-size:16px;margin-bottom:40px;position:relative;z-index:1;">Оставьте email — мы свяжемся в течение часа</p>
+  <div class="cta-form">
+    <input type="email" class="cta-input" placeholder="ваш@email.ru">
+    <button class="cta-btn">Написать нам →</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">NOVA</div>
+  <div class="footer-copy">© 2026 NOVA Agency. Все права защищены.</div>
+  <div class="footer-links">
+    <a href="#">Telegram</a>
+    <a href="#">Instagram</a>
+    <a href="#">Behance</a>
+  </div>
+</footer>
+
+</body>
+</html>
